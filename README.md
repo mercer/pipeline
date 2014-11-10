@@ -3,8 +3,10 @@ TODO
 - [x] build the deployable artifact
 - [x] expose the appliance's ports to localhost
 - [x] docker artifactory
-- remove ports, if possible
 - [x] docker registry appliance
+- [x] fetch build number to version strategy
+- [x] fix boot2docker os system time
+- remove ports, if possible
 - scripts for windows
 - scripts for linux
 - jenkins with java 1.8
@@ -15,14 +17,13 @@ TODO
 - cleanup all the mixes of pipeline config and env config, and all other config; remove hardcoded credentials
 - [x] have sonar run on all
 - have config pass guest os appliance urls and not component urls (fetch ports/host os ip)
-- [x] fetch build number to version strategy
 - use artifactory as proxy/mirroring
-- [x] fix boot2docker os system time
 - mirroring with docker registry
 - shipyard?
 - start mysql and tomcat in delivered container?
 - DOCKER_HOST in jenkins container should not be hardcoded in the Dockerfile
 - remove war file from artifactory (when doing a FROM, a hook is triggered for which you need to specify a war file)
+- enable authentication to the registry (fixes "Invalid registry endpoint" errors)
 
 Fictionized lifecycle of a container
 --------------------------------------
