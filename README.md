@@ -6,16 +6,15 @@ TODO
 - [x] docker registry appliance
 - [x] fetch build number to version strategy
 - [x] fix boot2docker os system time
-- remove ports, if possible
-- scripts for windows
-- scripts for linux
+- [x] have sonar run on all
+- [x] remove ports, if possible
+- Vagrant
 - jenkins with java 1.8
 - clean up gradle configuration
 - ONBUILD trigger to pack a deployable artifact with a container (tomcat)
 - add javadoc task call
 - remove expose ports duplication from own Dockerfile
 - cleanup all the mixes of pipeline config and env config, and all other config; remove hardcoded credentials
-- [x] have sonar run on all
 - have config pass guest os appliance urls and not component urls (fetch ports/host os ip)
 - use artifactory as proxy/mirroring
 - mirroring with docker registry
@@ -24,6 +23,11 @@ TODO
 - DOCKER_HOST in jenkins container should not be hardcoded in the Dockerfile
 - remove war file from artifactory (when doing a FROM, a hook is triggered for which you need to specify a war file)
 - enable authentication to the registry (fixes "Invalid registry endpoint" errors)
+- add dockerfile link in hub for repos
+
+Features
+------------
+- I have a friendly entry point to services (ports are random)
 
 Fictionized lifecycle of a container
 --------------------------------------
