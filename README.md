@@ -4,8 +4,7 @@ TODO
 - [x] expose the appliance's ports to localhost
 - [x] docker artifactory
 - remove ports, if possible
-- docker repository
-- start docker on jenkins
+- [x] docker registry appliance
 - scripts for windows
 - scripts for linux
 - jenkins with java 1.8
@@ -23,6 +22,7 @@ TODO
 - shipyard?
 - start mysql and tomcat in delivered container?
 - DOCKER_HOST in jenkins container should not be hardcoded in the Dockerfile
+- remove war file from artifactory (when doing a FROM, a hook is triggered for which you need to specify a war file)
 
 Fictionized lifecycle of a container
 --------------------------------------

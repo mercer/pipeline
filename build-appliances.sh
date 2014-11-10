@@ -8,7 +8,3 @@ docker build -t="mercer/registry" "$DIR/registry"
 docker build -t="mercer/artifactory" "$DIR/artifactory"
 docker build -t="mercer/sonar-mysql" "$DIR/sonar-mysql"
 docker build -t="mercer/sonar" "$DIR/sonar"
-
-# environment
-docker build -t="mercer/mysql" "$DIR/mysql"
-docker build -t="mercer/tomcat" "$DIR/tomcat"
