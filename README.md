@@ -1,5 +1,13 @@
-TODO
--------
+TODO NEXT
+-----------
+- [x] fix publish to unsecure registry
+- start one build artifact container from registry by hand
+- start several containers from registry by hand
+- add war file to build artifact container
+
+TODO BACKLOG
+----------------
+- give registry a known host name or ip
 - [x] build the deployable artifact
 - [x] expose the appliance's ports to localhost
 - [x] docker artifactory
@@ -24,6 +32,14 @@ TODO
 - remove war file from artifactory (when doing a FROM, a hook is triggered for which you need to specify a war file)
 - enable authentication to the registry (fixes "Invalid registry endpoint" errors)
 - add dockerfile link in hub for repos
+
+Stages
+---------
+- commit
+- acceptance
+- uat
+- performance
+- production
 
 Features
 ------------
@@ -59,6 +75,7 @@ Questions
 - how much space do container instances occupy? what about container snapshots?
 - sidekick container specialized on backup?
 - multi-container dockerfile?
+- when starting all containers, how to start dependencies first?
 
 Appliances
 --------------------------
