@@ -1,21 +1,17 @@
 TODO NEXT
 -----------
-- [x] fix publish to unsecure registry
-- start one build artifact container from registry by hand
-- start several containers from registry by hand
-- add war file to build artifact container
+
+Stages
+---------
+- commit
+- acceptance
+- uat
+- performance
+- production
 
 TODO BACKLOG
 ----------------
 - give registry a known host name or ip
-- [x] build the deployable artifact
-- [x] expose the appliance's ports to localhost
-- [x] docker artifactory
-- [x] docker registry appliance
-- [x] fetch build number to version strategy
-- [x] fix boot2docker os system time
-- [x] have sonar run on all
-- [x] remove ports, if possible
 - Vagrant
 - jenkins with java 1.8
 - clean up gradle configuration
@@ -29,17 +25,30 @@ TODO BACKLOG
 - shipyard?
 - start mysql and tomcat in delivered container?
 - DOCKER_HOST in jenkins container should not be hardcoded in the Dockerfile
+- what if i'm not in boot2docker, is it ok for jenkins to be reliant on an outside docker provider?
 - remove war file from artifactory (when doing a FROM, a hook is triggered for which you need to specify a war file)
 - enable authentication to the registry (fixes "Invalid registry endpoint" errors)
 - add dockerfile link in hub for repos
-
-Stages
----------
-- commit
-- acceptance
-- uat
-- performance
-- production
+- build total time?
+- [x] fix publish to unsecure registry
+- [x] start one build artifact container from registry by hand
+- [x] start several containers from registry by hand
+- [x] add war file to build artifact container
+- [x] build the deployable artifact
+- [x] expose the appliance's ports to localhost
+- [x] docker artifactory
+- [x] docker registry appliance
+- [x] fetch build number to version strategy
+- [x] fix boot2docker os system time
+- [x] have sonar run on all
+- [x] remove ports, if possible
+- [x] make acceptance build job
+- [x] make acceptance job downstream of commit
+- [x] research gradle acceptance tasks
+- [x] create an (empty) acceptance gradle task
+- [x] fetch any war from artifactory
+- [x] fetch the correct war from artifactory
+- [x] continue to fetch the correct war after artifactoru container is recreated
 
 Features
 ------------
@@ -76,6 +85,8 @@ Questions
 - sidekick container specialized on backup?
 - multi-container dockerfile?
 - when starting all containers, how to start dependencies first?
+- if upstream commit build has number x, downstream acceptance build has number y, is y relevant?
+- before commiting an container increment, shouldn't it be started to verify that it works (smoke tests)
 
 Appliances
 --------------------------
@@ -103,15 +114,25 @@ Add docker host to hosts file
 ------------------------------
 echo $(docker-ip) dockerhost | sudo tee -a /etc/hosts
 
-Useful docker scripts for your shell config
+Useful docker scripts
 -------------------------------------------------
-docker-ip() {
+$(boot2docker shellinit)
+
+boot2docker-ip() {
   boot2docker ip 2> /dev/null
 }
 
 docker-enter() {
   boot2docker ssh '[ -f /var/lib/boot2docker/nsenter ] || docker run --rm -v /var/lib/boot2docker/:/target jpetazzo/nsenter'
   boot2docker ssh -t sudo /var/lib/boot2docker/docker-enter "$@"
+}
+
+docker-pid() {
+  docker inspect --format '{{ .State.Pid }}' "$@"
+}
+
+docker-ip() {
+  docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"
 }
 
 Very small docker containers
