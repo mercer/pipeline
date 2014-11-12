@@ -120,6 +120,7 @@ Issues
   http://wanderingquandaries.blogspot.ro/2014/11/setting-up-insecure-docker-registry.html
 - sometimes the registry container fails to start with "2014-11-09 23:49:15 [17] [ERROR] Exception in worker process:"
 - after adding tags for a deployable docker container, now build tags are too long https://i.imgur.com/uIbroci.png
+- ubuntu service does not start at container start time (jenkins container with apache2)
 
 Add docker host to hosts file
 ------------------------------
