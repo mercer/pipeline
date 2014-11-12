@@ -1,17 +1,27 @@
 TODO NEXT
 -----------
+- i need a global registry known host name or ip
+- who starts the env, the gradle acceptance task?
+- where should the docker command be executed?
+- write gradle code to run docker commands
 
 Stages
 ---------
-- commit
+- [x] commit (compile, package, test, automated code review, [reports], publish, marked)
 - acceptance
 - uat
 - performance
 - production
 
+Principles
+------------
+- i'd like to clearly see all steps a build goes through
+- i'd like to have good monitoring of my containers
+- i'd like to have good management of statefull containers
+
 TODO BACKLOG
 ----------------
-- give registry a known host name or ip
+- i should commit to registry from gradle, not from jenkins
 - Vagrant
 - jenkins with java 1.8
 - clean up gradle configuration
@@ -30,6 +40,7 @@ TODO BACKLOG
 - enable authentication to the registry (fixes "Invalid registry endpoint" errors)
 - add dockerfile link in hub for repos
 - build total time?
+- diagnostics on all containers?
 - [x] fix publish to unsecure registry
 - [x] start one build artifact container from registry by hand
 - [x] start several containers from registry by hand
