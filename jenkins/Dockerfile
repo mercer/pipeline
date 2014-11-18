@@ -10,5 +10,5 @@ RUN apt-get install php5-json -y
 RUN git clone https://github.com/afaqurk/linux-dash.git /var/www/linux-dash
 EXPOSE 80
 RUN curl -sSL https://get.docker.com/ubuntu/ | sh
-ENV DOCKER_HOST tcp://192.168.59.103:2375
+ENV DOCKER_HOST tcp://dockerhost:2375
 USER jenkins

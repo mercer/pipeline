@@ -147,6 +147,8 @@ docker-ip() {
   docker inspect --format '{{ .NetworkSettings.IPAddress }}' "$@"
 }
 
+echo $(docker-ip) dockerhost | sudo tee -a /etc/hosts
+
 Very small docker containers
 --------------------------------
 - docker pull scratch

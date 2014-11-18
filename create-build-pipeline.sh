@@ -7,9 +7,9 @@ SONAR_HASH=$(docker run -itdP --link $SONAR_MYSQL_NAME:db mercer/sonar)
 SONAR_NAME=$(docker inspect -f "{{ .Name }}" $SONAR_HASH)
 ARTIFACTORY_HASH=$(docker run -itdP mattgruter/artifactory)
 ARTIFACTORY_NAME=$(docker inspect -f "{{ .Name }}" $ARTIFACTORY_HASH)
-REGISTRY_HASH=$(docker run -itdP registry)
+REGISTRY_HASH=$(docker run -itd -p 5000:5000 registry)
 REGISTRY_NAME=$(docker inspect -f "{{ .Name }}" $REGISTRY_HASH)
-JENKINS_HASH=$(docker run -itdP -v ~/.jenkins:/var/jenkins_home --link $SONAR_MYSQL_NAME:SONAR_MYSQL --link $SONAR_NAME:SONAR --link $ARTIFACTORY_NAME:ARTIFACTORY --link $REGISTRY_NAME:REGISTRY mercer/jenkins)
+JENKINS_HASH=$(docker run -itd -p 8080:8080 -v ~/.jenkins:/var/jenkins_home --link $SONAR_MYSQL_NAME:SONAR_MYSQL --link $SONAR_NAME:SONAR --link $ARTIFACTORY_NAME:ARTIFACTORY --link $REGISTRY_NAME:REGISTRY mercer/jenkins)
 JENKINS_NAME=$(docker inspect -f "{{ .Name }}" $JENKINS_HASH)
 
 printf "\nNew containers created: $SONAR_MYSQL_NAME, $SONAR_NAME, $ARTIFACTORY_NAME, $REGISTRY_NAME, $JENKINS_NAME\n\n"
