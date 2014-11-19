@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "pipeline" do |box|
     box.vm.box = "dummy"
-    #box.vm.synced_folder ".", "/vagrant", type: "rsync"
+    box.vm.synced_folder ".", "/vagrant", type: "rsync"
     box.ssh.private_key_path = "~/.ssh/id_rsa"
 
     box.vm.provision :shell, :inline => <<-SH
@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     SH
 
     box.vm.provider :virtualbox do |virtualbox, override|
-      virtualbox.name = "pipeline_virtualbox"
+      virtualbox.name = "pipeline"
       virtualbox.memory = 2048
       
       override.vm.box = "phusion/ubuntu-14.04-amd64"
@@ -24,7 +24,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
     
     box.vm.provider :digital_ocean do |digitalocean, override|
-      digitalocean.name = "pipeline_digitalocean"
+      digitalocean.name = "pipeline"
       digitalocean.token = ENV['VAGRANT_DIGITALOCEAN_TOKEN']
       digitalocean.image = "14.04 x64"
       digitalocean.region = "ams2"
@@ -39,7 +39,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       aws.secret_access_key = ENV['VAGRANT_EC2_SECRET_ACCESS_KEY']
 
       aws.keypair_name = "vagrant"
-      aws.security_groups = [ "vagrant" ]
+      aws.security_groups = [ "vagrant" ] # make sure this security group includes ssh access
       aws.ami = "ami-4d594d08"
       aws.region = "us-west-1"
       aws.instance_type = "m3.medium"
