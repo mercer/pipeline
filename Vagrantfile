@@ -6,7 +6,6 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "pipeline" do |box|
     box.vm.box = "dummy"
-    box.vm.synced_folder ".", "/vagrant", type: "rsync"
     box.ssh.private_key_path = "~/.ssh/id_rsa"
 
     box.vm.provision :shell, :inline => <<-SH
@@ -42,7 +41,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       aws.security_groups = [ "vagrant" ] # make sure this security group includes ssh access
       aws.ami = "ami-4d594d08"
       aws.region = "us-west-1"
-      aws.instance_type = "m3.medium"
+      aws.instance_type = "t2.small"
 
       override.vm.box = "aws"
       override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
