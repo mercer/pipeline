@@ -3,37 +3,51 @@
 
 VAGRANTFILE_API_VERSION = "2"
 
-
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "pipeline" do |box|
-    box.vm.box = "phusion/ubuntu-14.04-amd64"
-    box.vm.hostname = "pipeline"
+    box.vm.box = "dummy"
+    #box.vm.synced_folder ".", "/vagrant", type: "rsync"
+    box.ssh.private_key_path = "~/.ssh/id_rsa"
 
+    box.vm.provision :shell, :inline => <<-SH
+      curl -sSL https://get.docker.com/ | sh
+      export DATA_HOME=/vagrant/data
+      /vagrant/create-build-pipeline.sh
+    SH
 
-    if Dir.glob("#{File.dirname(__FILE__)}/.vagrant/machines/default/*/id").empty?
-      pkg_cmd = "wget -q -O - https://get.docker.io/gpg | apt-key add -;" \
-        "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list;" \
-        "apt-get update -qq; apt-get install -q -y --force-yes lxc-docker; "
-      pkg_cmd << "usermod -a -G docker vagrant; "
-      box.vm.provision :shell, :inline => pkg_cmd
-      box.vm.provision "shell", path: "create-build-pipeline.sh"
+    box.vm.provider :virtualbox do |virtualbox, override|
+      virtualbox.name = "pipeline_virtualbox"
+      virtualbox.memory = 2048
+      
+      override.vm.box = "phusion/ubuntu-14.04-amd64"
+      override.vm.hostname = "pipeline"
     end
     
-    box.vm.provider :virtualbox do |provider|
-      provider.name = "pipeline_virtualbox"
-      provider.memory = 2048
-    end
-    
-    box.vm.provider :digital_ocean do |provider, override|
-      provider.name = "pipeline_digitalocean"
-      provider.token = ENV['VAGRANT_DIGITALOCEAN_TOKEN']
-      provider.image = "14.04 x64"
-      provider.region = "ams2"
-      provider.size = "1gb"
+    box.vm.provider :digital_ocean do |digitalocean, override|
+      digitalocean.name = "pipeline_digitalocean"
+      digitalocean.token = ENV['VAGRANT_DIGITALOCEAN_TOKEN']
+      digitalocean.image = "14.04 x64"
+      digitalocean.region = "ams2"
+      digitalocean.size = "1gb"
 
       override.vm.box = "digital_ocean"
       override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
-      override.ssh.private_key_path = "~/.ssh/id_rsa"
+    end
+
+    box.vm.provider :aws do |aws, override|
+      aws.access_key_id = ENV['VAGRANT_EC2_ACCESS_KEY_ID']
+      aws.secret_access_key = ENV['VAGRANT_EC2_SECRET_ACCESS_KEY']
+
+      aws.keypair_name = "vagrant"
+      aws.security_groups = [ "vagrant" ]
+      aws.ami = "ami-4d594d08"
+      aws.region = "us-west-1"
+      aws.instance_type = "m3.medium"
+
+      override.vm.box = "aws"
+      override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
+      override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = "~/.ssh/vagrant.cer"
     end
   end
 end
