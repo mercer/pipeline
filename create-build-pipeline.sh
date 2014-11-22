@@ -17,5 +17,8 @@ REGISTRY_NAME=$(docker inspect -f "{{ .Name }}" $REGISTRY_HASH)
 JENKINS_HASH=$(docker run -itd -p 8080:8080 -u root -v $DATA_HOME/jenkins:/var/jenkins_home --link $SONAR_MYSQL_NAME:SONAR_MYSQL --link $SONAR_NAME:SONAR --link $ARTIFACTORY_NAME:ARTIFACTORY mercer/jenkins)
 JENKINS_NAME=$(docker inspect -f "{{ .Name }}" $JENKINS_HASH)
 
+docker build -t crosbymichael/dockerui github.com/crosbymichael/dockerui
+docker run -d -p 9001:9000 -v /var/run/docker.sock:/docker.sock crosbymichael/dockerui -e /docker.sock
+
 printf "\nNew containers created: $SONAR_MYSQL_NAME, $SONAR_NAME, $ARTIFACTORY_NAME, $REGISTRY_NAME, $JENKINS_NAME\n\n"
 docker ps -a
