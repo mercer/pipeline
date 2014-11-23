@@ -18,3 +18,4 @@ release.properties
 .tmp/
 modules/
 data
+.DS_Store
