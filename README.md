@@ -1,9 +1,9 @@
-TODO NEXT
------------
-- i need a global registry known host name or ip
-- who starts the env, the gradle acceptance task?
-- where should the docker command be executed?
-- write gradle code to run docker commands
+Usage
+---------
+- vagrant up
+- visit [virtualbox]:8080 and configure a build job
+- DOCKER_HOST is set to the docker as a service container
+- REGISTRY_HOST is set to the registry as a service container 
 
 Stages
 ---------

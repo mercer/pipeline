@@ -21,8 +21,11 @@ else
     echo "deleting all containers..." && docker rm $(docker ps -a -q)
 fi
 
+mkdir -p /data
+
 docker pull registry
-REGISTRY_HASH=$(docker run -itd -p 5000:5000 registry)
+REGISTRY_VOLUMES="-v /data/registry:/tmp/registry"
+REGISTRY_HASH=$(docker run -itd -p 5000:5000 $REGISTRY_VOLUMES registry)
 REGISTRY_NAME=$(docker inspect -f "{{ .Name }}" $REGISTRY_HASH)
 REGISTRY_IP=$(docker-ip $REGISTRY_NAME)
 echo "docker registry container is called: $REGISTRY_NAME"
@@ -34,7 +37,7 @@ DOCKER_IP=$(docker-ip $DOCKER_NAME)
 echo "docker service container is called: $DOCKER_NAME"
 
 docker pull mercer/jenkins:latest
-JENKINS_VOLUMES="-v /vagrant/data/jenkins:/jenkins"
+JENKINS_VOLUMES="-v /data/jenkins:/jenkins"
 JENKINS_LINKS="--link $REGISTRY_NAME:registry --link $DOCKER_NAME:docker_host"
 JENKINS_ENV="-e DOCKER_HOST=$DOCKER_IP:2375 -e REGISTRY_HOST=$REGISTRY_IP:5000"
 JENKINS_HASH=$(docker run -itd -p 8080:8080 $JENKINS_ENV $JENKINS_VOLUMES $JENKINS_LINKS mercer/jenkins:latest)
