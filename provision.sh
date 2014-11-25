@@ -12,6 +12,7 @@ docker-ip() {
 }
 
 if !(command_exists docker || command_exists lxc-docker); then
+    apt-get install -y -q ncdu nmap htop
     curl -sSL https://get.docker.com/ | sh
     gpasswd -a ubuntu docker
     service docker restart && sleep 3
