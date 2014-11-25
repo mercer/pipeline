@@ -16,6 +16,7 @@ if !(command_exists docker || command_exists lxc-docker); then
     gpasswd -a ubuntu docker
     service docker restart && sleep 3
     docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+    sudo apt-get -s -y vagrant
 else
     echo "stopping all containers..." && docker stop $(docker ps -a -q)
     echo "deleting all containers..." && docker rm $(docker ps -a -q)
