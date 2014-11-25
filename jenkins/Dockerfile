@@ -3,6 +3,7 @@ MAINTAINER Mercer Traieste <mercer.traieste@gmail.com>
 
 RUN apt-get update && apt-get clean
 RUN apt-get install -q -y openjdk-7-jdk && apt-get clean
+RUN apt-get install -q -y vagrant && apt-get clean
 RUN apt-get install -q -y curl && apt-get clean
 
 ADD http://mirrors.jenkins-ci.org/war/1.590/jenkins.war /opt/jenkins.war
