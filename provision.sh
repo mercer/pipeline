@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 command_exists() {
     command -v "$@" > /dev/null 2>&1
@@ -18,12 +17,14 @@ if !(command_exists docker || command_exists lxc-docker); then
     curl -sSL https://get.docker.com/ | sh
     gpasswd -a ubuntu docker
     service docker restart && sleep 3
-    docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
+    #docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
     sudo apt-get -s -y vagrant
 else
-    echo "stopping all containers..." && docker stop $(docker ps -a -q)
-    echo "deleting all containers..." && docker rm $(docker ps -a -q)
+    docker ps -aq | xargs docker stop
+    docker ps -aq | xargs docker rm
+    docker images -q | xargs docker rmi
 fi
+apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 mkdir -p /data
 

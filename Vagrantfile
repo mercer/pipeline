@@ -6,7 +6,9 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "pipeline" do |box|
     box.vm.box = "dummy"
-    box.ssh.private_key_path = "~/.ssh/id_rsa"
+
+    box.vm.synced_folder ".", "/vagrant", type: "rsync",
+        :rsync_excludes => ['.git', 'data']
 
     box.vm.provision :shell, :args => "", :path => "provision.sh"
 
@@ -27,6 +29,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       override.vm.box = "digital_ocean"
       override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
+      override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = "~/.ssh/id_rsa"
     end
 
     box.vm.provider :aws do |aws, override|
@@ -42,6 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       override.vm.box = "aws"
       override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
       override.ssh.username = "ubuntu"
+      override.ssh.private_key_path = "~/.ssh/id_rsa"
     end
   end
 end
