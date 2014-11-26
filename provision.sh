@@ -22,13 +22,13 @@ if !(command_exists docker || command_exists lxc-docker); then
 else
     docker ps -aq | xargs docker stop
     docker ps -aq | xargs docker rm
-    docker images -q | xargs docker rmi
+    #docker images -q | xargs docker rmi
 fi
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 mkdir -p /data
 
-docker pull registry
+docker pull registry:latest
 REGISTRY_VOLUMES="-v /data/registry:/tmp/registry"
 REGISTRY_HASH=$(docker run -itd -p 5000:5000 $REGISTRY_VOLUMES registry)
 REGISTRY_NAME=$(docker inspect -f "{{ .Name }}" $REGISTRY_HASH)
