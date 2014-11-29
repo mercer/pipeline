@@ -1,36 +1,23 @@
-FROM phusion/baseimage:0.9.15
+FROM debian:wheezy
 MAINTAINER Mercer Traieste <mercer.traieste@gmail.com>
-
-ENV HOME /root
-
-CMD ["/sbin/my_init"]
 
 RUN apt-get update && apt-get install -y \
     curl \
     openjdk-7-jdk \
-    ruby-full \
-    vagrant
-RUN apt-get install -y \
+    build-essential \
     libxslt-dev \
-    libxml2-dev
-RUN apt-get install -y \
-    ruby-dev
-RUN apt-get install -y \
-    zlib1g-dev
-RUN apt-get install -y \
-    make
-RUN apt-get install -y \
-    build-essential
-RUN gem install nokogiri -- --use-system-libraries=true --with-xml2-include=/usr/include/libxml2
-RUN vagrant plugin install vagrant-aws
-
-RUN curl -sSL https://get.docker.com/ | sh
-
-ADD http://mirrors.jenkins-ci.org/war/1.590/jenkins.war /opt/jenkins.war
-RUN chmod 644 /opt/jenkins.war
+    libxml2-dev && \
+    curl -sSL https://get.docker.com/ | sh && \
+    curl -OL https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb && \
+    dpkg -i vagrant_1.6.5_x86_64.deb && \
+    rm -f vagrant_1.6.5_x86_64.deb && \
+    vagrant plugin install vagrant-aws && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN curl -OL http://mirrors.jenkins-ci.org/war/1.590/jenkins.war && \
+    mv jenkins.war /opt/jenkins.war && \
+    chmod 644 /opt/jenkins.war
 ENV JENKINS_HOME /jenkins
 ENTRYPOINT ["java", "-jar", "/opt/jenkins.war"]
 EXPOSE 8080
 CMD [""]
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
