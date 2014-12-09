@@ -1,9 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANTFILE_API_VERSION = "2"
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure("2") do |config|
   config.vm.define "pipeline" do |box|
     box.vm.box = "dummy"
 
@@ -20,12 +18,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       override.vm.hostname = "pipeline"
     end
     
-    box.vm.provider :digital_ocean do |digitalocean, override|
-      digitalocean.name = "pipeline"
-      digitalocean.token = ENV['VAGRANT_DIGITALOCEAN_TOKEN']
-      digitalocean.image = "14.04 x64"
-      digitalocean.region = "ams2"
-      digitalocean.size = "1gb"
+    box.vm.provider :digital_ocean do |digital_ocean, override|
+      digital_ocean.name = "pipeline"
+      digital_ocean.token = ENV['VAGRANT_DIGITALOCEAN_TOKEN']
+      digital_ocean.image = "14.04 x64"
+      digital_ocean.region = "ams2"
+      digital_ocean.size = "1gb"
 
       override.vm.box = "digital_ocean"
       override.vm.box_url = "https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box"
@@ -34,19 +32,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
 
     box.vm.provider :aws do |aws, override|
-      aws.access_key_id = ENV['VAGRANT_EC2_ACCESS_KEY_ID']
-      aws.secret_access_key = ENV['VAGRANT_EC2_SECRET_ACCESS_KEY']
+      aws.access_key_id = ENV['VAGRANT_AWS_IAM_ACCESS_KEY_ID']
+      aws.secret_access_key = ENV['VAGRANT_AWS_IAM_ACCESS_KEY_SECRET']
 
-      aws.keypair_name = "vagrant"
-      aws.security_groups = [ "vagrant" ] # make sure this security group includes ssh access
+      aws.keypair_name = ENV['VAGRANT_AWS_EC2_KEY_PAIR_NAME']
+      aws.security_groups = [ ENV['VAGRANT_AWS_EC2_SECURITY_GROUP'] ] # make sure this security group includes ssh access
       aws.ami = "ami-4d594d08"
       aws.region = "us-west-1"
-      aws.instance_type = "t2.micro"
+      aws.instance_type = "t2.small"
 
       override.vm.box = "aws"
       override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
       override.ssh.username = "ubuntu"
-      override.ssh.private_key_path = ENV['VAGRANT_EC2_PRIVATE_KEY_PATH']
+      override.ssh.private_key_path = ENV['VAGRANT_AWS_EC2_PRIVATE_KEY_PATH']
     end
   end
 end
