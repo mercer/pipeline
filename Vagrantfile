@@ -41,6 +41,8 @@ Vagrant.configure("2") do |config|
       aws.region = "us-west-1"
       aws.instance_type = "t2.small"
 
+      aws.block_device_mapping = [{ 'DeviceName' => '/dev/sda1', 'Ebs.VolumeSize' => 50, 'Ebs.VolumeType' => 'gp2' }]
+
       override.vm.box = "aws"
       override.vm.box_url = "https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box"
       override.ssh.username = "ubuntu"
