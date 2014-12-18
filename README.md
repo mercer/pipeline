@@ -1,5 +1,7 @@
 Usage
 ---------
+
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/mercer/pipeline?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 - vagrant up
 - visit [virtualbox]:8080 and configure a build job
 - DOCKER_HOST is set to the docker as a service container
