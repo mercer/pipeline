@@ -20,8 +20,8 @@ if !(command_exists docker || command_exists lxc-docker); then
     #docker run --rm -v /usr/local/bin:/target jpetazzo/nsenter
     sudo apt-get -s -y vagrant
 else
-    docker ps -aq | xargs docker stop
-    docker ps -aq | xargs docker rm
+    docker ps -aq | xargs -r docker stop
+    docker ps -aq | xargs -r docker rm
     #docker images -q | xargs docker rmi
 fi
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
