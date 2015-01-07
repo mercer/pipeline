@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
     openjdk-7-jdk \
     build-essential \
     libxslt-dev \
-    libxml2-dev && \
+    libxml2-dev \
+    sudo && \
     curl -sSL https://get.docker.com/ | sh && \
     curl -sOL https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.5_x86_64.deb && \
     dpkg -i vagrant_1.6.5_x86_64.deb && \
