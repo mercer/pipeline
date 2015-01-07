@@ -36,7 +36,7 @@ REGISTRY_IP=$(docker-ip $REGISTRY_NAME)
 echo "docker registry container is called: $REGISTRY_NAME"
 
 docker pull jpetazzo/dind:latest
-DOCKER_HASH=$(docker run --privileged -d -p 2375:2375 -e PORT=2375 -e DOCKER_DAEMON_ARGS="--insecure-registry $REGISTRY_IP:5000" jpetazzo/dind)
+DOCKER_HASH=$(docker run --privileged -d -p 2375:2375 -e PORT=2375 -e DOCKER_DAEMON_ARGS="--insecure-registry $REGISTRY_IP:5000" mercer/dind)
 DOCKER_NAME=$(docker inspect -f "{{ .Name }}" $DOCKER_HASH)
 DOCKER_IP=$(docker-ip $DOCKER_NAME)
 echo "docker service container is called: $DOCKER_NAME"
