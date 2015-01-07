@@ -49,4 +49,5 @@ JENKINS_HASH=$(docker run -itd -p 8080:8080 $JENKINS_ENV $JENKINS_VOLUMES $JENKI
 JENKINS_NAME=$(docker inspect -f "{{ .Name }}" $JENKINS_HASH)
 echo "jenkins container is called: $JENKINS_NAME"
 
-curl -s ip.jsontest.com
+PUBLIC_IP=$(curl -s curl 'http://api.ipify.org')
+echo "Instance public ip is [$PUBLIC_IP]"
